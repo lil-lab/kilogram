@@ -1,0 +1,229 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(here)
+library(tidyverse)
+library(ggthemes)
+library(ggridges)
+library(broom)
+library(mclust)
+```
+
+```{r}
+d.raw <- read_csv(here('data_collection/human_baseline_judgments.csv')) %>%
+  filter(iterationName %in% c('final_sample')) %>%
+  filter(trial_type == 'html-tangram-grid') %>%
+  filter(!is.na(button_pressed))
+
+passed_catch <- d.raw %>%
+  filter(target == 'catch') %>%
+  filter(response %in% c('page1-1', 'page1-1_9')) %>%
+  pull(gameid)
+
+practice_performance <- d.raw %>%
+  filter(target != 'catch') %>%
+  filter(trial_index >= 22)  %>% # remove practice trials
+  group_by(gameid, condition) %>%
+  summarize(practice_accuracy = mean(correct))
+  
+d <- d.raw %>%
+  filter(gameid %in% passed_catch) %>%
+  filter(target != 'catch')  %>%
+  filter(trial_index >= 22)  %>% # remove practice trials
+  filter(rt > 2000) %>%
+  select(-trial_type, -context, -iterationName, -wID) %>%
+  left_join(practice_performance) %>%
+  mutate(condition = fct_relevel(condition, 'part+color', 'whole+color', 'part+black', 'whole+black'))
+```
+
+# Sample attributes
+
+```{r}
+cat(length(passed_catch), 'out of', d.raw$gameid %>% unique() %>% length(), 'passed catch trial')
+d %>% pull(gameid) %>% unique() %>% length() %>% cat('distinct participants')
+d %>% group_by(condition, target) %>% tally() %>% group_by(condition) %>% tally(name = 'target_images')
+d %>% group_by(condition, description) %>% tally() %>% group_by(condition) %>% tally(name = 'descriptions')
+```
+
+# Main result: Accuracy by condition
+
+```{r}
+d %>%
+  group_by(condition) %>%
+  summarize(accuracy = round(mean(correct), 3), n_obs = length(correct))
+```
+
+Stats
+
+```{r}
+library(lme4)
+d %>%
+  glmer(correct ~ condition + (1 | gameid) + (1 | target),
+       family = 'binomial',
+       data = .) %>%
+  summary()
+```
+
+Fit mixture model with 2 components
+
+```{r}
+fits <- d %>% 
+  group_by(gameid, condition) %>%
+  summarize(m = mean(correct)) %>%
+  split(.$condition) %>%
+  map_dfr(~ {
+    Mclust(G=2, model="V", data = .$m) %>% tidy()
+  }, .id = 'condition') %>%
+  mutate(condition = fct_relevel(condition, 'part+color', 'whole+color', 'part+black', 'whole+black'))
+```
+
+Make ridge plot
+
+```{r}
+
+d %>%
+  group_by(gameid, condition) %>%
+  summarize(accuracy = round(mean(correct), 3), n_obs = length(correct), `response time (ms)` = mean(rt)) %>%
+  ungroup() %>%
+  mutate(condition = fct_relevel(condition, 'part+color', 'whole+color', 'part+black', 'whole+black')) %>%
+  gather(measure, value, accuracy, `response time (ms)`) %>%
+  filter(measure == 'accuracy') %>%
+  ungroup() %>%
+  ggplot(aes(x = value, y = condition, fill = condition)) +
+    geom_density_ridges_gradient(scale = 1.3, alpha = 0.8) +
+    geom_segment(aes(x = mean, xend = mean, 
+                     y = as.numeric(condition), yend = as.numeric(condition) + 1), 
+                 data = fits %>% mutate(condition = factor(condition)), color = 'white', linetype = 'dashed') +
+    scale_fill_colorblind() +
+    labs(x= 'participant accuracy') +
+    xlim(0, 1) +
+    theme_few() +
+    theme(aspect.ratio = 1, legend.position = 'none')
+
+ggsave('ridgeplot.pdf', width = 5, height = 5, units = 'in')
+```
+
+```{r}
+d %>%
+  separate(target, into = c('target'), sep = '_') %>%
+  separate(condition, into = c('parts', 'color'), sep = '\\+') %>%
+  group_by(target, parts, color) %>%
+  summarize(acc = mean(correct)) %>%
+  group_by(parts, color) %>%
+  mutate(group_acc = mean(acc)) %>%
+  ungroup() %>%
+  mutate(parts = fct_relevel(parts, 'whole', 'part')) %>%
+  ggplot(aes(x = parts, y = acc, color = color)) +
+    geom_point(alpha = 0.1, aes(group = interaction(target, color))) +
+    geom_hline(yintercept = .1, linetype = 'dotted') +
+    geom_line(width = 0.1, alpha = 0.1, aes(group = interaction(target, color))) +
+    geom_line(aes(y = group_acc, group = color), size = 2) +
+    geom_point(aes(y = group_acc), size = 5) +
+    scale_color_colorblind() +
+    labs(y = 'accuracy', x = '') +
+    theme_few()
+```
+
+
+
+```{r}
+d %>% 
+  group_by(gameid, condition) %>%
+  summarize(m = mean(correct)) %>%
+  ungroup() %>%
+  split(.$condition) %>%
+  walk(~ {
+    print(first(.$condition))
+    plot(Mclust(G=2, model="V", data = .$m), what='density', xlim = c(0,1), type='n', col='red', main=first(as.character(.$condition)))
+  }, .id = 'condition') 
+```
+
+```{r}
+Mclust(G=2, model="V", data = d %>% 
+  group_by(gameid, condition) %>%
+  summarize(m = mean(correct)) %>% pull(m))$loglik
+
+d %>% 
+  group_by(gameid, condition) %>%
+  summarize(m = mean(correct)) %>%
+  split(.$condition) %>%
+  map_dfr(~ {
+    data = .x
+    return(map_dbl(c(1,2,3,4,5), ~ {
+      bic = Mclust(G=.x, model="V", data$m)$loglik
+      print(bic)
+      return(ifelse(is.null(bic), 0, bic))
+    }))
+  }, .id = 'condition')
+```
+
+## Improvement over time?
+
+```{r}
+d %>%
+  group_by(condition, trial_index) %>%
+  summarize(accuracy = round(mean(correct), 3), n_obs = length(correct)) %>%
+  ggplot(aes(x = trial_index-3, y = accuracy, color = condition)) +
+    geom_point() +
+    geom_smooth(method = 'lm', se = F) +
+    theme_few() +
+    labs(x = 'time (trial #)') +
+    scale_color_colorblind()
+```
+
+## Accuracy split out by halves
+
+```{r}
+d %>%
+  mutate(half = ifelse(trial_index<35, 'first', 'second')) %>%
+  group_by(condition, half) %>%
+  summarize(accuracy = round(mean(correct), 3), n_obs = length(correct))
+```
+
+## Speed-accuracy tradeoff?
+
+```{r}
+d %>%
+  group_by(gameid, condition) %>%
+  summarize(accuracy = round(mean(correct), 3), n_obs = length(correct), rt = mean(rt)) %>%
+  ggplot(aes(x = log(rt), y = accuracy, color = condition)) +
+    geom_jitter() +
+    geom_smooth(method = 'lm', se = F) +
+    theme_few() +
+    scale_color_colorblind()
+```
+
+
+# Examine co-occurrence structure of distractors
+
+```{r}
+library(tm)
+
+# parse the context strings into document-term matrix
+# then transform into co-occurrence matrix
+cm <- d %>% 
+  # filter(condition %in% c('part+color')) %>%
+  select(context) %>%
+  mutate(context = gsub('\\[\\"', ' ', context),
+         context = gsub('\\"\\]', ' ', context),
+         context = gsub('_.', '', context),
+         context = gsub('\\",\\"', ' ', context)) %>%
+  pull(context) %>% 
+  VectorSource() %>%  
+  VCorpus() %>%
+  DocumentTermMatrix() %>%
+  as.matrix()
+  textmineR::Dtm2Tcm() 
+
+heatmap(cm %>% log1p())
+```
+
+```{r}
+chisq.test(cm)
+```
+
+
+

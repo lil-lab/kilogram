@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 252 219" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <polygon fill="lightgray" id="1" points="74.25 44.342 111.78 6.812 149.31 44.342 111.78 81.872" stroke="white" strokewidth="1" transform="matrix(0.190809, 0.981627, -0.981627, 0.190809, 133.978683, -73.845139)"/>
+  <polygon fill="lightgray" id="2" points="182.593 112.285 182.593 37.224 220.123 -0.306 220.123 74.754" stroke="white" strokewidth="1" transform="matrix(0.984808, 0.173649, -0.173649, 0.984808, 12.781627, -34.114994)"/>
+  <polygon fill="lightgray" id="3" points="67.199 66.238 2.76 66.238 34.979 34.158" stroke="white" strokewidth="1" style="" transform="matrix(0.559193, 0.829038, -0.829038, 0.559193, 56.688953, -6.027923)" bx:origin="0.485 0.503"/>
+  <polygon fill="lightgray" id="4" points="69.994 108.222 37.502 76.601 69.994 44.981" stroke="white" strokewidth="1" style="" transform="matrix(0.819153, -0.573575, 0.573575, 0.819153, -34.216545, 44.68166)"/>
+  <polygon fill="lightgray" id="5" points="83.878 48.751 86.001 115.115 151.66 49.041" stroke="white" strokewidth="1" style="" transform="matrix(-0.573627, -0.819117, 0.819117, -0.573627, 118.211777, 225.398529)"/>
+  <polygon fill="lightgray" id="6" points="184.021 212.059 249.564 146.479 118.474 146.479" stroke="white" strokewidth="1" style="" transform="matrix(0.573576, 0.819152, -0.819152, 0.573576, 225.318695, -74.294998)"/>
+  <polygon fill="lightgray" id="7" points="109.772 72.492 167.53 132.571 109.772 194.16" stroke="white" strokewidth="1" style="" transform="matrix(-0.984808, -0.173648, 0.173648, -0.984808, 252.043793, 288.702942)"/>
+</svg>

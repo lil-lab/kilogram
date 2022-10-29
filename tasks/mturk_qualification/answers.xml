@@ -1,0 +1,55 @@
+<AnswerKey xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2005-10-01/AnswerKey.xsd">
+  <Question>
+    <QuestionIdentifier>Q1</QuestionIdentifier>
+    <AnswerOption>
+        <SelectionIdentifier>q11</SelectionIdentifier>
+        <AnswerScore>1</AnswerScore>
+    </AnswerOption>
+    <AnswerOption>
+        <SelectionIdentifier>q12</SelectionIdentifier>
+        <AnswerScore>0</AnswerScore>
+    </AnswerOption>
+  </Question>
+
+  <Question>
+    <QuestionIdentifier>Q1</QuestionIdentifier>
+    <AnswerOption>
+        <SelectionIdentifier>q11</SelectionIdentifier>
+        <AnswerScore>1</AnswerScore>
+    </AnswerOption>
+    <AnswerOption>
+        <SelectionIdentifier>q12</SelectionIdentifier>
+        <AnswerScore>0</AnswerScore>
+    </AnswerOption>
+  </Question>
+
+  <Question>
+    <QuestionIdentifier>Q2</QuestionIdentifier>
+    <AnswerOption>
+        <SelectionIdentifier>q21</SelectionIdentifier>
+        <AnswerScore>0</AnswerScore>
+    </AnswerOption>
+    <AnswerOption>
+        <SelectionIdentifier>q22</SelectionIdentifier>
+        <AnswerScore>1</AnswerScore>
+    </AnswerOption>
+  </Question>
+
+  <Question>
+    <QuestionIdentifier>Q3</QuestionIdentifier>
+    <AnswerOption>
+        <SelectionIdentifier>q31</SelectionIdentifier>
+        <AnswerScore>1</AnswerScore>
+    </AnswerOption>
+    <AnswerOption>
+        <SelectionIdentifier>q32</SelectionIdentifier>
+        <AnswerScore>0</AnswerScore>
+    </AnswerOption>
+  </Question>
+
+  <QualificationValueMapping>
+    <PercentageMapping>
+      <MaximumSummedScore>3</MaximumSummedScore>
+    </PercentageMapping>
+  </QualificationValueMapping>
+</AnswerKey>

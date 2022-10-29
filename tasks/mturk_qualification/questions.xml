@@ -1,0 +1,164 @@
+<QuestionForm xmlns='http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2005-10-01/QuestionForm.xsd'>
+  <Overview>
+    <Title> Tangram Task Qualification Tutorial </Title>
+    <FormattedContent><![CDATA[
+  This is a <strong>qualification tutorial </strong>for the tangram annotation task. This<strong> tutorial</strong> entails watching a short video (&lt; 2 minutes), reading a few examples, and completing a short quiz (3 multiple choice questions). You will be given 1 hour for the qualification test, but it usually only takes 5-6 minutes.
+  <br />
+  <br />
+  In the<strong> tangram task,</strong> you will see a simple but abstract shape. Different people see different things when they look at the shape and we are interested in what you see. After you describe what the shape looks like, you will describe the&nbsp;parts&nbsp;of that shape. A single assignment should take approximately 30 seconds.<br />
+  <br />
+  <b>Payment</b><br />
+  We plan to pay USD$0.14 for completing each tangram task.<br />
+  In the main tangram task, we plan to release HITs regularly over the next few weeks, and you will be allowed to accept as many as you would like.
+  <br /><br />
+  <strong>Contact</strong><br />
+  If you have any questions, feel free to reach out at&nbsp;<a href="mailto:lic.cs.cornell@gmail.com?subject=Tangram Qualification" target="_blank">lic.cs.cornell@gmail.com</a>
+  <br />
+  <br />
+  Thank you!
+  <br />
+  <br />
+  <strong>Consent</strong><br />
+  This is part of a Cornell University research study, about the naming of objects and their parts. 
+  The participation is anonymous and voluntary. Participants can choose to stop participating at any time. 
+  By completing the qualifier and any subsequent related tasks, you [the participant] are consenting to participate in the research. 
+  This research is led by Yoav Artzi (contact email: <a href="mailto:lic.cs.cornell@gmail.com?subject=Tangram Task" target="_blank">lic.cs.cornell@gmail.com</a>).
+  <br />
+  <br />
+  ************************
+  <br />
+  <strong>Please watch the tutorial and look at the examples of bad annotations on <a href="https://tangram-dashboard.vercel.app/qual" target="_blank">this page</a>&nbsp;(will open in a new tab) before you proceed to the questions.&nbsp;</strong>
+  <br />
+  ]]>
+    </FormattedContent>
+  </Overview>
+
+  <Question>
+    <QuestionIdentifier>Q1</QuestionIdentifier>
+    <DisplayName>Q1</DisplayName>
+    <IsRequired>true</IsRequired>
+    <QuestionContent>
+      <Text> Which annotation for this shape AS A WHOLE is a good annotation? </Text>
+      <Binary>
+        <MimeType>
+          <Type>image</Type>
+          <SubType>png</SubType>
+        </MimeType>
+        <DataURL>https://i.ibb.co/wgPQpBb/Screen-Shot-2021-06-16-at-19-33-47.png</DataURL>
+        <AltText>Describe tangram as a whole</AltText>
+      </Binary>
+    </QuestionContent>
+    <AnswerSpecification>
+      <SelectionAnswer>
+        <StyleSuggestion>radiobutton</StyleSuggestion>
+        <Selections>
+          <Selection>
+            <SelectionIdentifier>q11</SelectionIdentifier>
+            <Text>magician</Text>
+          </Selection>
+          <Selection>
+            <SelectionIdentifier>q12</SelectionIdentifier>
+            <Text>a stack of triangle, square, and parallelogram</Text>
+          </Selection>
+        </Selections>
+      </SelectionAnswer>
+    </AnswerSpecification>
+  </Question>
+
+  <Question>
+    <QuestionIdentifier>Q2</QuestionIdentifier>
+    <DisplayName>Q2</DisplayName>
+    <IsRequired>true</IsRequired>
+    <QuestionContent>
+      <Text> Which annotation for this shape BY PARTS is a good annotation? </Text>
+      <Binary>
+        <MimeType>
+          <Type>image</Type>
+          <SubType>png</SubType>
+        </MimeType>
+        <DataURL>https://i.ibb.co/JH9vj3b/Screen-Shot-2021-06-16-at-19-39-27.png</DataURL>
+        <AltText></AltText>
+      </Binary>
+      <Binary>
+        <MimeType>
+          <Type>image</Type>
+          <SubType>png</SubType>
+        </MimeType>
+        <DataURL>https://i.ibb.co/30qPmXR/Screen-Shot-2021-06-16-at-19-44-51.png</DataURL>
+        <AltText></AltText>
+      </Binary>
+    </QuestionContent>
+    <AnswerSpecification>
+      <SelectionAnswer>
+        <StyleSuggestion>radiobutton</StyleSuggestion>
+        <Selections>
+          <Selection>
+            <SelectionIdentifier>q21</SelectionIdentifier>
+            <FormattedContent><![CDATA[
+            <strong>Top:</strong> <br/>
+            Red: head with a hat <br/>
+            Blue: body with two arms <br/>
+            ]]>            </FormattedContent>
+          </Selection>
+          <Selection>
+            <SelectionIdentifier>q22</SelectionIdentifier>
+            <FormattedContent><![CDATA[
+            <strong>Bottom:</strong> <br/>
+            Red: hat <br/>
+            Green: head <br/>
+            Blue: arms <br/>
+            Purple: body <br/>
+            ]]>            </FormattedContent>
+          </Selection>
+        </Selections>
+      </SelectionAnswer>
+    </AnswerSpecification>
+  </Question>
+
+  <Question>
+    <QuestionIdentifier>Q3</QuestionIdentifier>
+    <DisplayName>Q3</DisplayName>
+    <IsRequired>true</IsRequired>
+    <QuestionContent>
+      <Text> Which annotation is a good annotation (ONLY by looking at the annotation)? </Text>
+      <!-- <Binary>
+        <MimeType>
+          <Type>image</Type>
+          <SubType>png</SubType>
+        </MimeType>
+        <DataURL>https://i.ibb.co/30qPmXR/Screen-Shot-2021-06-16-at-19-44-51.png</DataURL>
+        <AltText></AltText>
+      </Binary> -->
+    </QuestionContent>
+    <AnswerSpecification>
+      <SelectionAnswer>
+        <StyleSuggestion>radiobutton</StyleSuggestion>
+        <Selections>
+          <Selection>
+            <SelectionIdentifier>q31</SelectionIdentifier>
+            <FormattedContent><![CDATA[
+            <strong>As a whole:</strong> bowl of ice cream on the table<br/>
+            <strong>By parts:</strong> <br/>
+            Red: ice cream <br/>
+            Green: bowl <br/>
+            Blue: table surface <br/>
+            Purple: table legs <br/>
+            ]]>            </FormattedContent>
+          </Selection>
+          <Selection>
+            <SelectionIdentifier>q32</SelectionIdentifier>
+            <FormattedContent><![CDATA[
+            <strong>As a whole:</strong> seal with a ball<br/>
+            <strong>By parts:</strong> <br/>
+            Red: ice cream <br/>
+            Green: bowl <br/>
+            Blue: table surface <br/>
+            Purple: table legs <br/>
+            ]]>            </FormattedContent>
+          </Selection>
+        </Selections>
+      </SelectionAnswer>
+    </AnswerSpecification>
+  </Question>
+
+</QuestionForm>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 140 230" xmlns="http://www.w3.org/2000/svg">
+  <polygon fill="lightgray" id="1" points="36.542 32.362 66.732 2.173 96.922 32.362 66.732 62.552" stroke="white" strokewidth="1"/>
+  <polygon fill="lightgray" id="2" points="21.707 144.08 21.707 83.7 51.897 53.51 51.897 113.89" stroke="white" strokewidth="1"/>
+  <polygon fill="lightgray" id="3" points="93.535 95.777 33.155 95.777 63.345 65.587" stroke="white" strokewidth="1" transform="matrix(-0.707107, -0.707107, 0.707107, -0.707107, 51.085892, 182.524475)"/>
+  <polygon fill="lightgray" id="4" points="51.361 175.452 21.172 145.262 51.361 115.072" stroke="white" strokewidth="1"/>
+  <polygon fill="lightgray" id="5" points="117.796 213.169 57.416 213.169 117.796 152.79" stroke="white" strokewidth="1" transform="matrix(0.707106, -0.707107, 0.707107, 0.707106, -103.726883, 115.540375)"/>
+  <polygon fill="lightgray" id="6" points="73.345 141.352 133.724 80.972 12.965 80.972" stroke="white" strokewidth="1" transform="matrix(-0.707107, 0.707107, -0.707107, -0.707107, 203.810303, 137.903015)"/>
+  <polygon fill="lightgray" id="7" points="35.239 264.607 95.619 204.228 35.239 143.847" stroke="white" strokewidth="1" transform="matrix(0.707107, 0.707107, -0.707107, 0.707107, 163.574005, 13.551412)"/>
+</svg>

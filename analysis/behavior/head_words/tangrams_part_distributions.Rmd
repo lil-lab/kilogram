@@ -1,0 +1,67 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(tidyverse)
+library(tidyjson)
+
+# read in json and convert to 'long' format where every row is one count
+d.raw <- read_json("~/Downloads/lemmatized_whole_part_counts.json") %>% 
+  gather_object() %>%
+  spread_all() %>%
+  rename(wholename = name) %>%
+  gather(partname, n, starts_with('parts_dict')) %>%
+  select(wholename, partname, count, n) 
+```
+
+```{r}
+d <- d.raw %>%
+  rename(wholecount =count) %>%
+  # replace nans with 0s
+  mutate(n = ifelse(is.na(n), 0, n),
+         partname = gsub('parts_dict.', '', partname)) %>%
+  # calculate distribution nested within parts
+  group_by(wholename) %>%
+  mutate(totalpartcount = sum(n), 
+         p = n / totalpartcount,
+         maxfreq = max(p)) %>%
+  # calculate which parts are more common overall
+  group_by(partname) %>%
+  mutate(overall_freq = mean(p),
+          partname = ifelse(p < 0.005, 'other', partname)) %>%
+  # # collapse over 'other' (i.e. sum up everything with <2%)
+  group_by(wholename, partname, wholecount) %>%
+  summarize(n = sum(n), p = sum(p),
+            maxfreq = mean(max(p)),
+            overall_freq = mean(overall_freq))
+```
+
+```{r}
+library(viridis)
+
+d.plot <- d %>%
+  ungroup() %>%
+  filter(p >= 0.005) %>%
+  filter(wholecount > 10) %>%
+  mutate(wholename = fct_reorder(wholename, wholecount, .desc = T),
+         #partname = fct_reorder(partname, overall_freq),
+         partname = ifelse(partname == 'other', NA, sample(as.numeric(as.factor(partname)))))
+
+d.plot %>%
+  arrange(partname, -p) %>%
+  ggplot(aes(x = wholename, y = p, fill = partname)) +
+    geom_bar(stat = "identity", width = 1) +
+    ggthemes::theme_few() +
+    labs(y = 'p(part)', x = '') +
+    theme(aspect.ratio = 1, legend.position = 'none', 
+          axis.text.x = element_text(angle = 90, vjust = .5, hjust = 1, size = 10)) +
+    scale_x_discrete(guide = guide_axis(check.overlap = TRUE), 
+                     breaks = function(x) {x[seq(1, length(x), 4)]}) +
+    scale_fill_viridis()  
+ggsave('~/Downloads/example2_appendix.pdf', width = 8, height = 12, units = 'in')
+```
+
+

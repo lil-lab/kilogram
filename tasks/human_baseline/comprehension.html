@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Communication game</title>
+      	<script src="/socket.io/socket.io.js" type="text/javascript"></script>
+        <script src="jspsych-6.1.0/jspsych.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-html-tangram-grid.js"></script>	
+        <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-instructions.js"></script>        
+        <script src="jspsych-6.1.0/plugins/jspsych-survey-html-form.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+        <script src="practiceTrials.js"></script>
+        <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+        <style>
+        button {
+          border: none;
+          padding: 32px 32px;
+          display: inline-block;
+          font-size: 16px;
+          transition-duration: 0.6s;
+        }
+        span {
+          color: red;
+        }
+        </style>
+    </head>
+    <body>
+    </body>
+    <script>
+
+    //==========================================================================
+    // START EXPERIMENT
+    //==========================================================================
+    window.onload = function() {
+      setupGame();
+    }
+
+    function setupGame () {
+      var socket = io.connect();
+      var timeline = [];
+      var iterationName = 'prolific_sample'
+      var catch_trial = {
+	'whole+black' : {
+	  'images' : ['page1-1', 'page8-169', 'page9-12', 'page2-106', 'page7-156',
+		      'page5-195', 'page7-8', 'page2-39', 'page9-33', 'page9-16'],
+	  'targets' : 'catch', 'texts' : 'perfect square'},
+	'whole+color' : {
+	  'images' : ['page1-1_9', 'page8-169_1', 'page9-12_1', 'page2-106_1', 'page7-156_1',
+		      'page5-195_1', 'page7-8_1', 'page2-39_1', 'page9-33_1', 'page9-16_1'],
+	  'targets' : 'catch', 'texts' : 'perfect square'},
+	'part+black' : {
+	  'images' : ['page1-1', 'page8-169', 'page9-12', 'page2-106', 'page7-156',
+		      'page5-195', 'page7-8', 'page2-39', 'page9-33', 'page9-16'],
+	  'targets' : 'catch', 'texts' : 'perfect square#top#bottom'},
+	'part+color' : {
+	  'images' : ['page1-1_9', 'page8-169_1', 'page9-12_1', 'page2-106_1', 'page7-156_1',
+		      'page5-195_1', 'page7-8_1', 'page2-39_1', 'page9-33_1', 'page9-16_1'],
+	  'targets' : 'catch', 'texts' : 'perfect square#top#bottom'},
+      };
+      
+      socket.on('onConnected', function(mongoData) {
+	console.log(mongoData)
+	var trialSeq = _.shuffle(mongoData.trial_sequence.concat(catch_trial[mongoData.condition]));
+	var pracSeq = _.shuffle(practiceTrials[mongoData.condition]);
+	var turkInfo = jsPsych.turk.turkInfo();
+	var preview = {
+          type: 'instructions',
+          pages: ['<p> Welcome! In this study, you will be shown a set of images and descriptions. ' +
+		  'Based on each description, you will choose one of the images that matches ' +
+		  'the description. </p>' +
+		  '<p> <b> If you are interested in learning more about this study, ' +
+		  'please first accept to taking the study before continuing further</b>. </p>'],
+          show_clickable_nav: false,
+          allow_keys: false
+	};
+
+	var consent = {
+          type: 'html-button-response',
+          stimulus: "<font size='2'><p align=left style='width:50%;margin:auto'>  \
+         This research is being conducted by Anya Ji, an undergraduate researcher, \
+           Robert Hawkins, a postdoctoral \
+        researcher at Princeton University, and Yoav Artzi, a faculty member at Cornell \
+        University. This study takes approximately 8 minutes to complete.</p> \
+        <br> \
+        <p style='width:50%;margin:auto' align='left'>If you agree to take part in the research, you will be \
+        presented with a series of descriptions and do you best to understand what they mean. \
+        All of the information we obtain during the research will be kept \
+        confidential, and not associated with your name in any way. However, \
+        while the study is running it will be associated with your id. \
+        Once the study is complete we will replace your id with a random \
+        combination of letters and numbers.</p> \
+        <br> \
+        <p style='width:50%;margin:auto' align='left'>If you have any questions about this research, do not hesitate to \
+        contact Robert Hawkins at <b>hawkrobe@gmail.com</b>. If you have any questions \
+        about your rights or treatment as a participant in this research project, \
+        please contact the Princeton Office for Research Integrity and Assurance \
+        by phone at 609-258-0865 or by email at ria@princeton.edu.</p> \
+        <br>\
+        <p style='width:50%;margin:auto' align='left'>By consenting to participate, you acknowledge that you are 18 years \
+        or older, have read this consent form, agree to its contents, and agree \
+        to take part in this research. If you do not wish to consent, please close \
+        this page and exit the study.</p></font><p></p>",
+	  choices: ['I consent to participate.']
+	}
+
+	var welcome = {
+          type: 'html-keyboard-response',
+          stimulus: 'Welcome to the experiment. <strong>Press any key to begin</strong>',
+          data: {'trial_type' : 'instructions'}
+	};
+
+	// if still in preview mode, tell them to accept first, otherwise show first slide
+	if (!turkInfo.previewMode) {
+          timeline.push(welcome);
+          timeline.push(consent);
+	} else {
+          timeline.push(preview);
+	}
+
+
+	/* Instruction to Practice Trial */
+	timeline.push({
+    	  type: "html-keyboard-response",
+    	  stimulus: "<p>You will be shown a series of descriptions along with sets of images.</p>" +
+            "<p>Please read the description carefully and then select the image that you believe best matches the description.</p>" +
+    	    "<p><strong>Press any key to begin with some practice trials.</strong></p>",
+          data: {'trial_type' : 'instructions'}
+	});
+
+  /* Practice Trial */
+  const preTrial = {
+    	  type: "html-tangram-grid",
+          stimulus: function() {
+	    const text_colors = ['#EE865B', '#FAD849', '#98CCF6', '#F4B9C2',
+				 '#60B077', '#A9A9A9','#D3D2D4']
+	    const text = jsPsych.timelineVariable('texts', true)
+	    const article = _.includes([ 'a', 'an', 'the'], text.split(' ')[0]) ? '' : 'a'
+            const title = ("<p style='font-size:25px'> This looks like " + 
+			   article + "... <b>" + text.split('#')[0] + "</b>! </p>")
+	    const parts = text.split('#').slice(1)
+	    const colored_parts = _.map(_.zip(parts, text_colors.slice(0, parts.length)), v => {
+	      return '<b style="background-color:' + v[1] + '; font-size:25px">' + v[0] + '</b>'
+	    })
+	    const stim = mongoData.condition.split('+')[1] == 'black' ? parts : colored_parts
+	    return (mongoData.condition.split('+')[0] == 'whole' ? title :		    
+		    title + ("<p style='font-size:25px'>(with " +  stim.join(' and ') + ')</p>'))
+          },
+          choices: function() {
+	    var stim = jsPsych.timelineVariable('targets', true);
+	    var shuffled_context = _.shuffle(jsPsych.timelineVariable('images', true))
+	    return _.map(shuffled_context, c => {
+	      return '<img width="200px" src="images/' + c + '.png"></img>'
+	    })
+          },
+          data: function() {
+            return {
+              'context' : jsPsych.timelineVariable('images', true),
+              'target' : jsPsych.timelineVariable('targets', true),
+              'description' : jsPsych.timelineVariable('texts', true)
+            }
+          },
+          on_finish: function(data) {
+          data.correct = data.response == jsPsych.timelineVariable('targets', true)
+          }
+	}
+
+  const feedback = {
+    	  type: "html-tangram-grid",
+          stimulus: function() {
+            var response_correct = jsPsych.data.get().last(1).values()[0].correct
+            const feedbackText = response_correct ? "<p style='font-size:25px; color:green'><strong>Correct!</strong></p>":
+              "<p style='font-size:25px; color:red'><strong>Wrong!</strong></p>"
+              
+            const text_colors = ['#EE865B', '#FAD849', '#98CCF6', '#F4B9C2',
+              '#60B077', '#A9A9A9','#D3D2D4']
+            const text = jsPsych.timelineVariable('texts', true)
+            const article = _.includes([ 'a', 'an', 'the'], text.split(' ')[0]) ? '' : 'a'
+            const title = ("<p style='font-size:25px'> This looks like " + 
+              article + "... <b>" + text.split('#')[0] + "</b>! </p>")
+            const parts = text.split('#').slice(1)
+            const colored_parts = _.map(_.zip(parts, text_colors.slice(0, parts.length)), v => {
+              return '<b style="background-color:' + v[1] + '; font-size:25px">' + v[0] + '</b>'
+            })
+            const stim = mongoData.condition.split('+')[1] == 'black' ? parts : colored_parts
+            return (mongoData.condition.split('+')[0] == 'whole' ? title :		    
+              title + ("<p style='font-size:25px'>(with " +  stim.join(' and ') + ')</p>')) + feedbackText
+          },
+          choices: function() {
+            var choices = jsPsych.data.get().last(1).values()[0].choices // get this trial's choices
+            return choices
+          },
+          button_html: function(){
+            const trial_response = jsPsych.data.get().last(1).values()[0].response
+            const trial_target = jsPsych.timelineVariable('targets', true)
+            var choices = jsPsych.data.get().last(1).values()[0].choices
+            
+            return _.map(choices, c => {
+              const content = c.split('images/').pop().split('.png')[0]; // get the filename from the image tag
+              if (content === trial_target){ // target
+                return '<button class="jspsych-btn correct-choice">%choice%</button>'
+              }
+              else if (content === trial_response) { // wrong response
+                return '<button class="jspsych-btn wrong-choice">%choice%</button>'
+              }
+              else { // others
+                return '<button class="jspsych-btn" disabled="disabled">%choice%</button>'
+              }
+	    })
+          },
+          trial_duration: 4000
+	}
+
+
+	timeline.push({
+          timeline: [preTrial, feedback],
+          timeline_variables: pracSeq,
+          randomize_order: false,
+          repetitions: 1
+	});
+
+  /* Instruction to Main Trial */
+	timeline.push({
+    	  type: "html-keyboard-response",
+    	  stimulus: "<p>Practice ended. Great job! Now we will enter the actual trials.</p>" +
+          "<p>You will be shown a series of descriptions along with sets of images.</p>" +
+            "<p>Please read the description carefully and then select the image that you believe best matches the description.</p>" +
+	    (mongoData.condition != "part+color" ? '' :"<p>Hint: Before making a selection, double-check that the parts match the description!</p>") +
+    	    "<p><strong>Press any key to begin with the experiment.</strong></p>",
+          data: {'trial_type' : 'instructions'}
+	});
+
+
+  /* Main Trial */
+	const trial = {
+    	  type: "html-tangram-grid",
+          stimulus: function() {
+	    const text_colors = ['#EE865B', '#FAD849', '#98CCF6', '#F4B9C2',
+				 '#60B077', '#A9A9A9','#D3D2D4']
+	    const text = jsPsych.timelineVariable('texts', true)
+	    const article = _.includes([ 'a', 'an', 'the'], text.split(' ')[0]) ? '' : 'a'
+            const title = ("<p style='font-size:25px'> This looks like " + 
+			   article + "... <b>" + text.split('#')[0] + "</b>! </p>")
+	    const parts = text.split('#').slice(1)
+	    const colored_parts = _.map(_.zip(parts, text_colors.slice(0, parts.length)), v => {
+	      return '<b style="background-color:' + v[1] + '; font-size:25px">' + v[0] + '</b>'
+	    })
+	    const stim = mongoData.condition.split('+')[1] == 'black' ? parts : colored_parts
+	    return (mongoData.condition.split('+')[0] == 'whole' ? title :		    
+		    title + ("<p style='font-size:25px'>(with " +  stim.join(' and ') + ')</p>'))
+          },
+          choices: function() {
+	    var stim = jsPsych.timelineVariable('targets', true);
+	    var context = jsPsych.timelineVariable('images', true)
+	    return _.map(_.shuffle(context), c => {
+	      return '<img width="200px" src="images/' + c + '.png"></img>'
+	    })
+          },
+          data: function() {
+            return {
+              'context' : jsPsych.timelineVariable('images', true),
+              'target' : jsPsych.timelineVariable('targets', true),
+              'description' : jsPsych.timelineVariable('texts', true)
+            }
+          }
+	}
+
+	timeline.push({
+          timeline: [trial],
+          timeline_variables: trialSeq,
+          randomize_order: true,
+          repetitions: 1
+	});
+
+	// ENDING SURVEY TRIAL
+	var survey = {
+      	  type: 'survey-html-form',
+      	  preamble: '<p><b>Please complete the following required questions:</b> </p>',
+      	  html: '<p><div style="margin-left:0%;text-align: left">Which gender do you identify with?</div>'+
+      	    '<div style="margin-left:0%;text-align: left"><input type="radio" id="genderChoice1" name="gender" value="male"><label for="genderChoice1">Male</label></div>'+
+      	    '<div style="margin-left:0%;text-align: left"><input type="radio" id="genderChoice2" name="gender" value="female"><label for="genderChoice2">Female</label></div>' +
+      	    '<div style="margin-left:0%;text-align: left"><input type="radio" id="genderChoice3" name="gender" value="nonconforming"><label for="genderChoice3">Gender Variant/Non-Conforming</label></div>' +
+      	    '<div style="margin-left:0%;text-align: left"><input type="radio" id="genderChoice4" name="gender" value="abstain" required><label for="genderChoice4">Prefer not to answer</label></div></p>' +
+      	    '<p><div style="margin-left:0%;text-align: left"><label for="age">Enter your age:</label></div>'+
+      	    '<div style="margin-left:0%;text-align: left"><input type="text" id="age" name="age" required></div></p>' +
+      	    '<p><div style="margin-left:0%;text-align: left"> Did you understand the instructions?</div>'+
+      	    '<div style="margin-left:0%;text-align: left"><input type="radio" id="understoodChoice1" name="understood" value="yes" required><label for="understoodChoice1">Yes</label></div>'+
+      	    '<div style="margin-left:0%;text-align: left"><input type="radio" id="understoodChoice2" name="understood" value="no"><label for="understoodChoice2">No</label></div></p>' +
+      	    '<p><div style="margin-left:0%;text-align: left"><label for="language">What languages are you proficient in?</label></div>'+
+      	    '<div style="margin-left:0%;text-align: left"><input type="text" id="language" name="language" required></div></p>' +
+      	    '<p><div style="margin-left:0%;text-align: left"><label for="comments">Did anything go wrong with the task? Any comments or suggestions?</label></div>'+
+      	    '<div style="margin-left:0%;text-align: left"><input type="text" id="comments" name="comments"></div></p>',
+          data: {'trial_type' : 'survey'}
+	};
+
+	timeline.push(survey);
+
+	timeline.push({
+          type: 'html-button-response',
+          stimulus: '<p>You have completed the experiment. Thank you for your participation.</p>' +
+            '<p><strong>Click the button to submit your response.</strong></p>',
+          choices: ['Submit Response'],
+      	  on_finish: function() {
+      	    document.location.href='https://app.prolific.co/submissions/complete?cc=CF46P0D5'
+      	  }
+	});
+
+	console.log(timeline);
+
+	//==========================================================================
+	/* start the experiment */
+	jsPsych.init({
+          timeline: timeline,
+      	  show_progress_bar: true,
+          auto_update_progress_bar: false,
+          on_trial_finish: function(trialData) {
+	    var totalTrials = 2 * pracSeq.length + trialSeq.length;
+            jsPsych.setProgressBar(trialData.trial_index / totalTrials);
+      	    var packet = _.extend({}, trialData, {
+      	      dbname: 'kilogram',
+      	      colname: 'human_baseline',
+      	      wID: turkInfo.workerId,
+      	      aID: turkInfo.assignmentId,
+      	      hitID: turkInfo.hitId,
+      	      iterationName: iterationName,
+	      condition: mongoData.condition,
+	      correct: trialData.target == trialData.response,
+	      gameid: mongoData.gameid
+      	    })
+            // console.log(packet);
+            socket.emit('currentData', packet);
+          },
+	  preload_images: _.flattenDeep(_.map(trialSeq.concat(pracSeq), t => _.map(t['images'], im => {
+	    return 'images/' + im + '.png'
+	  })))
+	})
+      })
+    }
+    </script>
+</html>
