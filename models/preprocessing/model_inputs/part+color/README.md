@@ -1,3 +1,4 @@
+# colored images & part annotations
 1. Run `make_color_texts.py` to generate a json with whole shape and part annotations, piece id to color mapping, and a list of piece ids grouped by parts for each tangram example.
 2. Run `make_part_anns.py` to generate a json of tangram mapped to concatenated annotations.
 3. Run `color.py` to color svgs by parts.

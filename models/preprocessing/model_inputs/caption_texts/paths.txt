@@ -1,0 +1,26 @@
+train:
+_part_text_train = '../make-data/make-png/coloring/texts/train_part_sw.json' *
+TRAIN_TEXT_PATH='./data/new-augmented-annotations/train_part_sw.json'  //aug *
+
+val controlled:
+VAL_DATA_PATH='./data/new-val-controlled/texts/part+color.json' *
+VAL_DATA_PATH='./data/new-val-controlled/texts/part+black.json' *
+
+val random:
+VAL_DATA_PATH='./data/new-val-random/texts/part+color.json' *
+VAL_DATA_PATH='./data/new-val-random/texts/part+black.json' *
+
+dev control:
+data_path = './data/new-model-eval/texts/part+color.json' *
+data_path = './data/new-model-eval/texts/part+black.json' *
+
+dev random:
+data_path = './data/new-model-eval-random/texts/part+color.json' *
+data_path = './data/new-model-eval-random/texts/part+black.json' *
+
+heldout:
+data_path = './data/heldout/texts/part+color.json' *
+data_path = './data/heldout/texts/part+black.json' *
+
+analysis:
+data_path = './data/dev/aug_dev.json' *

@@ -1,0 +1,33 @@
+make_color_powersets #makes text
+(cut.py) # cut 1,2,3,4 parts to 20k
+make_part_anns #no cleaning!
+color #colors svg
+square #square svg
+to_png 
+
+(eval is same as above but run the eval_ files instead)
+
+** training text format:
+{'page': [{'text':..., 'color_groups':..., 'idx_to_color':...}]}
+
+** evaluation text format:
+{'page': 
+  {
+  '0':[{'text':..., 'color_groups':..., 'idx_to_color':...}],
+  '1': ...
+  }
+}
+
+=====
+dev:
+dev_make_color_powersets #makes text
+eval_make_part_anns #no cleaning!
+eval_color #colors svg
+square #square svg
+to_png 
+
+new_dev: ***separate by annotation parts count
+new_dev_make_color_powersets #makes text
+new_dev_color #colors svg
+square #square svg
+to_png 
