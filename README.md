@@ -1,5 +1,9 @@
 # The KiloGram Tangrams dataset
 
-A dashboard to view the KiloGram data is available here: https://tangram-dashboard.vercel.app/
+View KiloGram data on our dashboard!: https://tangram-dashboard.vercel.app/.
 
-A demo for the data collection task can be found here: https://tangram-online.web.app/. Check out its source code [here](https://github.com/lil-lab/kilogram-annotation-task).
+Demo for the data collection task: https://tangram-online.web.app/. Check out its source code [here](https://github.com/lil-lab/kilogram-annotation-task).
+
+Fine-tuned models: https://huggingface.co/lil-lab/kilogram-models.
+
+Preprocessed training and evaluation data: https://huggingface.co/datasets/lil-lab/kilogram.
