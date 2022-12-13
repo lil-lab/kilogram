@@ -20,7 +20,7 @@ tangram
 │   └── "7"
 ├── workerId
 └── metadata
-    └── actionIndex
+    └── [actionIndex]
         ├── final(if the part annotation is in the final submission)
         ├── pieces
         ├── annotation
