@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg baseProfile="full" height="100%" version="1.1" viewBox="0 0 296 624" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs/><polygon fill="lightgray" id="1" points="138.402 228.863 198.904 168.361 138.402 107.859 77.9 168.361" stroke="white" strokewidth="1"/>
+  <polygon fill="lightgray" id="2" points="224.032 556.367 284.534 616.869 163.53 616.869 103.028 556.367" stroke="white" strokewidth="1"/>
+  <polygon fill="lightgray" id="3" points="123.049 133.436 -23.016 108.375 60.832 48.316" stroke="white" strokewidth="1" transform="matrix(-0.62932, -0.777146, 0.777146, -0.62932, 10.868949, 186.936234)"/>
+  <polygon fill="lightgray" id="4" points="151.781 128.338 297.845 103.277 209.589 48.39" stroke="white" strokewidth="1" transform="matrix(-0.642788, 0.766044, -0.766044, -0.642788, 437.010834, -27.053333)"/>
+  <polygon fill="lightgray" id="5" points="259.406 349.867 138.402 349.867 138.402 228.863" stroke="white" strokewidth="1"/>
+  <polygon fill="lightgray" id="6" points="224.032 556.367 52.906 556.367 224.032 385.241" stroke="white" strokewidth="1"/>
+  <polygon fill="lightgray" id="7" points="138.402 470.871 17.398 349.867 259.406 349.867" stroke="white" strokewidth="1"/>
+</svg>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg baseProfile="full" height="100%" version="1.1" viewBox="0 0 321.0 392.0" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink"><defs/>  <polygon fill="lightgray" id="1" points="209.444 195.3 111.444 195.3 111.444 293.3 209.444 293.3" stroke="white" strokewidth="1"/>
+  <polygon fill="lightgray" id="2" points="111.444 195.3 111.444 293.3 13.444 391.3 13.444 293.3" stroke="white" strokewidth="1"/>
+  <polygon fill="lightgray" id="3" points="307.444 391.3 209.444 391.3 307.444 293.3" stroke="white" strokewidth="1"/>
+  <polygon fill="lightgray" id="4" points="111.444 391.3 13.444 391.3 111.444 293.3" stroke="white" strokewidth="1"/>
+  <polygon fill="lightgray" id="5" points="209.444 391.3 307.444 293.3 209.444 195.3" stroke="white" strokewidth="1"/>
+  <polygon fill="lightgray" id="6" points="65.272 196.655 261.272 0.655 65.272 0.655" stroke="white" strokewidth="1"/>
+  <polygon fill="lightgray" id="7" points="261.272 196.655 65.272 196.655 261.272 0.655" stroke="white" strokewidth="1"/>
+</svg>

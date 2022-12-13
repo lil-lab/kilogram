@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 126 227" xmlns="http://www.w3.org/2000/svg">
+  <polygon fill="lightgray" id="1" points="48.786 31.342 78.976 1.153 109.166 31.342 78.976 61.532" stroke="white" strokewidth="1"/>
+  <polygon fill="lightgray" id="2" points="123.705 139.168 123.705 78.788 93.246 48.679 92.912 109.471" stroke="white" strokewidth="1" transform="matrix(-1, 0, 0, -1, 216.617004, 187.847)"/>
+  <polygon fill="lightgray" id="3" points="107.931 93.574 47.551 93.574 77.741 63.384" stroke="white" strokewidth="1" transform="matrix(0, -1, 1, 0, -0.737999, 156.220001)"/>
+  <polygon fill="lightgray" id="4" points="47.169 161.283 16.98 131.093 47.169 100.903" stroke="white" strokewidth="1" transform="matrix(0.707107, -0.707107, 0.707107, 0.707107, -83.302345, 61.076347)"/>
+  <polygon fill="lightgray" id="5" points="62.197 139.422 1.817 139.422 62.197 79.043" stroke="white" strokewidth="1" transform="matrix(-0.000002, -1, 1, -0.000002, -77.225433, 141.239716)"/>
+  <polygon fill="lightgray" id="6" points="92.641 169.563 153.021 109.183 32.261 109.183" stroke="white" strokewidth="1" transform="matrix(0.000001, -1, 1, 0.000001, -46.732094, 232.013855)"/>
+  <polygon fill="lightgray" id="7" points="71.765 264.352 132.144 203.973 71.765 143.592" stroke="white" strokewidth="1" transform="matrix(0.707107, 0.707106, -0.707106, 0.707107, 174.091629, -12.350749)"/>
+</svg>
