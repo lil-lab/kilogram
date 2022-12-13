@@ -1,6 +1,6 @@
 # The KiloGram Tangrams dataset
 
-View KiloGram data on our dashboard!: https://tangram-dashboard.vercel.app/.
+View KiloGram data on our dashboard!: https://lil.nlp.cornell.edu/kilogram/dashboard .
 
 JSON format of the dataset can be found under `/dataset`.
 
