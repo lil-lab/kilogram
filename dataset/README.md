@@ -1,4 +1,4 @@
-# Kilogram Dataset
+# KiloGram Dataset
 `full.json`: 1016 tangrams, at least 10 annotations each
 
 `dense.json`: 74 tangrams, at least 50 annotations each
