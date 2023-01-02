@@ -7,19 +7,23 @@
 JSON schema:
 ```
 tangram
-├── whole
-│   ├── wholeAnnotation
-│   └── timestamp
-├── part
-│   ├── "1"
-│   ├── "2"
-│   ├── ...
-│   └── "7"
-├── workerId
-└── metadata
-    └── actionIndex
-        ├── final(if the part annotation is in the final submission)
-        ├── pieces
-        ├── annotation
-        └── timestamp
+├── snd
+├── pnd
+├── psa
+└── annotations (list)
+    ├── whole
+    │   ├── wholeAnnotation
+    │   └── timestamp
+    ├── part (corresponds to SVG polygon ids)
+    │   ├── "1"
+    │   ├── "2"
+    │   ├── ...
+    │   └── "7"
+    ├── workerId
+    └── metadata
+        └── actionIndex
+            ├── final (if the part annotation is in the final submission)
+            ├── pieces
+            ├── annotation
+            └── timestamp
 ```
