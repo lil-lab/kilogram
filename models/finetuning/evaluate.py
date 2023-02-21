@@ -15,36 +15,36 @@ def _get_eval_paths(args: argparse.ArgumentParser) -> Dict:
   load_path=args.load_path
   if load_path is None or len(load_path)==0:
     print('Loading model out of the box...')
-    # raise ValueError("missing load_path")
 
+  # NOTE: Download data at: https://huggingface.co/datasets/lil-lab/kilogram/tree/main and create `./data/` to place all the downloaded files.
   if args.heldout:
-    eval_folder='heldout'
-    images_dir = 'heldout'
+    eval_folder='heldout/texts/controlled'
+    images_dir = 'heldout/images'
     print('Evaluate on HELDOUT set...')
   else:
-    eval_folder = 'new-model-eval-random' if args.random else 'new-model-eval'
-    images_dir = 'new-model-eval'
+    eval_folder = 'development/texts/random' if args.random else 'development/texts/controlled'
+    images_dir = 'development/images'
     print('Evaluate on DEV set: '+ eval_folder)
 
   if args.dataset_type == "aug_aug" or args.dataset_type == "part_color":
-    image_path = './data/'+images_dir+'/images/color'   
-    data_path = './data/'+eval_folder+'/texts/part+color_caption.json' 
+    image_path = './data/'+images_dir+'/color'   
+    data_path = './data/'+eval_folder+'/part+color_caption.json' 
 
   elif args.dataset_type == "part_black":
-    image_path = './data/'+images_dir+'/images/black'
-    data_path = './data/'+eval_folder+'/texts/part+black_caption.json'
+    image_path = './data/'+images_dir+'/black'
+    data_path = './data/'+eval_folder+'/part+black_caption.json'
 
   elif args.dataset_type == "whole_color":
-    image_path = './data/'+images_dir+'/images/color'
-    data_path = './data/'+eval_folder+'/texts/whole+color.json'
+    image_path = './data/'+images_dir+'/color'
+    data_path = './data/'+eval_folder+'/whole+color.json'
 
   elif args.dataset_type == "whole_black":
-    image_path = './data/'+images_dir+'/images/black'
-    data_path = './data/'+eval_folder+'/texts/whole+black.json'
+    image_path = './data/'+images_dir+'/black'
+    data_path = './data/'+eval_folder+'/whole+black.json'
   
   elif args.dataset_type == "aug_dev": # augmented dev set, for evaluation analysis
-    image_path = '../make-data/make-png/augmented/dev/dev_images/new_dev_powerset_png'
-    data_path = './data/dev/aug_dev_caption.json'
+    image_path = './data/development/images/augmented'
+    data_path = './data/development/texts/augmented/aug_dev.json'
 
   else:
     raise ValueError("dataset type {} is not supported.".format(args.dataset_type))

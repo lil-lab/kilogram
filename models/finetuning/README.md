@@ -1,9 +1,9 @@
 # Finetuning CLIP and ViLT on KiloGram dataset
 ## Requirements
-Run `pip install` to install all dependencies. Training ViLT model requires higher GPU memory than CLIP. We trained ViLT models on a 24GB memory GPU, and CLIP can be run on a 11GB memory GPU.
+1. Run `pip install` to install all dependencies. Training ViLT model requires higher GPU memory than CLIP. We trained ViLT models on a 24GB memory GPU, and CLIP can be run on a 11GB memory GPU.
 
-## Data
-Processed data for finetuning will be available soon! 
+2. Download preprocessed data at: https://huggingface.co/datasets/lil-lab/kilogram/tree/main and create `./data/` to place all the downloaded files.
+You can also configure the data paths in `./dataloader/data_pathes.py` and `./evaluate.py`.
 
 ## Arguments
 | Parameter                 | Default       | Description   |	
