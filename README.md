@@ -15,7 +15,10 @@ Preprocessed training and evaluation data: https://huggingface.co/datasets/lil-l
 ## License
 
 KiloGgram is licensed under the MIT license below, except all the Tangram images involved (including the images under [`kilogram/dataset
-/tangrams-svg/`](dataset/tangrams-svg)). The Tangram images are digitized from book scans, and are available for educationl and research use per this notice [from the Princeton Library](dataset/tangrams-svg/COPYRIGHT-COVER-SHEET.pdf). 
+/tangrams-svg/`](dataset/tangrams-svg)). The Tangram images are digitized from scans of the following book: 
+> J Slocum. 2003. The Tangram Book: The Story of the Chinese Puzzle with over 2000 Puzzles to Solve. Sterling Publishing, New York.
+
+They are available for educationl and research use per this notice [from the Princeton Library](dataset/tangrams-svg/COPYRIGHT-COVER-SHEET.pdf). 
 
 ### MIT License 
 
